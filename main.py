@@ -42,6 +42,15 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
         return True
     raise HTTPException(status_code=401, detail="Invalid credentials")
 
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "FastAPI is running successfully!"}
+
+
 @app.post("/create-invoice")
 def create_invoice(invoice: InvoiceRequest, auth: bool = Depends(authenticate)):
     num_items = len(invoice.Order)  # Count of Order Items
