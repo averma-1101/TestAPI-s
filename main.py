@@ -37,19 +37,22 @@ class OrderItem(BaseModel):
 class InvoiceRequest(BaseModel):
     Order: List[OrderItem]
 
+class InvoiceCancellationItem(BaseModel):
+    INVOICE_NO: str
+    ORDER_ITEM: str
+    MARKET_PLACE: str
+
+class InvoiceCancellationRequest(BaseModel):
+    Invoice: List[InvoiceCancellationItem]
+
 def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
     if credentials.username == USERNAME and credentials.password == PASSWORD:
         return True
     raise HTTPException(status_code=401, detail="Invalid credentials")
 
-from fastapi import FastAPI
-
-app = FastAPI()
-
 @app.get("/")
 def home():
     return {"message": "FastAPI is running successfully!"}
-
 
 @app.post("/create-invoice")
 def create_invoice(invoice: InvoiceRequest, auth: bool = Depends(authenticate)):
@@ -58,4 +61,13 @@ def create_invoice(invoice: InvoiceRequest, auth: bool = Depends(authenticate)):
         "message": "Post Request received successfully!!",
         "num_of_items": num_items,
         "received_data": invoice.dict()
+    }
+
+@app.post("/cancel-invoice")
+def cancel_invoice(invoice_cancellation: InvoiceCancellationRequest, auth: bool = Depends(authenticate)):
+    num_items = len(invoice_cancellation.Invoice)  # Count of cancellation items
+    return {
+        "message": "Invoice cancellation request received successfully!",
+        "num_of_items": num_items,
+        "received_data": invoice_cancellation.dict()
     }
