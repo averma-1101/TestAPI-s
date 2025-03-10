@@ -15,11 +15,11 @@ PASSWORD = "Ibiz@961105"
 # Order Item Model with type adjustments
 class OrderItem(BaseModel):
     ORDER_ITM: str
-    VKORG: int  # Adjusted from str to int
+    VKORG: str  # Adjusted from str to int
     VTWEG: str
-    SPART: int  # Adjusted from str to int
-    STORAGE_LOC: int  # Adjusted from str to int
-    CUST_CODE: int  # Adjusted from str to int
+    SPART: str  # Adjusted from str to int
+    STORAGE_LOC: str  # Adjusted from str to int
+    CUST_CODE: str  # Adjusted from str to int
     PLANT_CODE: str
     CUST_NAME: str
     CUST_ADDR1: str
@@ -29,10 +29,10 @@ class OrderItem(BaseModel):
     TRACKING_ID: str
     MATERIAL_NO: str
     FINAL_QTY: int  # Adjusted from str to int
-    INVOICE_VALUE: int  # Adjusted from str to int
-    SGST: int  # Adjusted from str to int
-    IGST: int  # Adjusted from str to int
-    CGST: int  # Adjusted from str to int
+    INVOICE_VALUE: str  # Adjusted from str to int
+    SGST: str  # Adjusted from str to int
+    IGST: str  # Adjusted from str to int
+    CGST: str  # Adjusted from str to int
     MARKET_PLACE: str
 
 class InvoiceRequest(BaseModel):
