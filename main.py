@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from pydantic import BaseModel
+from pydantic import BaseModel, root_validator
 from typing import List, Union
 
 app = FastAPI()
@@ -15,11 +15,11 @@ PASSWORD = "Ibiz@961105"
 # Order Item Model with type adjustments
 class OrderItem(BaseModel):
     ORDER_ITM: str
-    VKORG: Union[str, int]  # Can be either a string or an integer
+    VKORG: Union[str, int]
     VTWEG: str
-    SPART: Union[str, int]  # Can be either a string or an integer
-    STORAGE_LOC: Union[str, int]  # Can be either a string or an integer
-    CUST_CODE: Union[str, int]  # Can be either a string or an integer
+    SPART: Union[str, int]
+    STORAGE_LOC: Union[str, int]
+    CUST_CODE: Union[str, int]
     PLANT_CODE: str
     CUST_NAME: str
     CUST_ADDR1: str
@@ -29,11 +29,25 @@ class OrderItem(BaseModel):
     TRACKING_ID: str
     MATERIAL_NO: str
     FINAL_QTY: int
-    INVOICE_VALUE: Union[str, int]  # Can be either a string or an integer
-    SGST: Union[str, int]  # Can be either a string or an integer
-    IGST: Union[str, int]  # Can be either a string or an integer
-    CGST: Union[str, int]  # Can be either a string or an integer
+    INVOICE_VALUE: Union[str, int]
+    SGST: Union[str, int]
+    IGST: Union[str, int]
+    CGST: Union[str, int]
     MARKET_PLACE: str
+
+    @root_validator(pre=True)
+    def convert_values(cls, values):
+        """
+        This validator will convert string numbers to integers and ensure that we handle both
+        str and int formats properly.
+        """
+        for field in ['VKORG', 'SPART', 'STORAGE_LOC', 'CUST_CODE', 'INVOICE_VALUE', 'SGST', 'IGST', 'CGST']:
+            value = values.get(field)
+            if value is not None:
+                # If value is a string representation of a number, convert it to an integer
+                if isinstance(value, str) and value.isdigit():
+                    values[field] = int(value)
+        return values
 
 class InvoiceRequest(BaseModel):
     Order: List[OrderItem]
