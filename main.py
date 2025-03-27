@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
-from typing import List
+from typing import List, Union
 
 app = FastAPI()
 
@@ -15,11 +15,11 @@ PASSWORD = "Ibiz@961105"
 # Order Item Model with type adjustments
 class OrderItem(BaseModel):
     ORDER_ITM: str
-    VKORG: str  # Adjusted from str to int
+    VKORG: Union[str, int]  # Can be either a string or an integer
     VTWEG: str
-    SPART: str  # Adjusted from str to int
-    STORAGE_LOC: str  # Adjusted from str to int
-    CUST_CODE: str  # Adjusted from str to int
+    SPART: Union[str, int]  # Can be either a string or an integer
+    STORAGE_LOC: Union[str, int]  # Can be either a string or an integer
+    CUST_CODE: Union[str, int]  # Can be either a string or an integer
     PLANT_CODE: str
     CUST_NAME: str
     CUST_ADDR1: str
@@ -28,11 +28,11 @@ class OrderItem(BaseModel):
     PIN_CODE: str
     TRACKING_ID: str
     MATERIAL_NO: str
-    FINAL_QTY: int  # Adjusted from str to int
-    INVOICE_VALUE: str  # Adjusted from str to int
-    SGST: str  # Adjusted from str to int
-    IGST: str  # Adjusted from str to int
-    CGST: str  # Adjusted from str to int
+    FINAL_QTY: int
+    INVOICE_VALUE: Union[str, int]  # Can be either a string or an integer
+    SGST: Union[str, int]  # Can be either a string or an integer
+    IGST: Union[str, int]  # Can be either a string or an integer
+    CGST: Union[str, int]  # Can be either a string or an integer
     MARKET_PLACE: str
 
 class InvoiceRequest(BaseModel):
