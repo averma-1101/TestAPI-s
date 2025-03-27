@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel, root_validator
-from typing import List, Union
+from typing import List, Union, Optional
 
 app = FastAPI()
 
@@ -23,7 +23,7 @@ class OrderItem(BaseModel):
     PLANT_CODE: str
     CUST_NAME: str
     CUST_ADDR1: str
-    CUST_ADDR2: str
+    CUST_ADDR2: Optional[str]  # Make this field optional
     STATE: str
     PIN_CODE: str
     TRACKING_ID: str
